@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>num1</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <div>
+    <label>Number A:<input id="radio-a" type="radio" name="math-obj" value="a"></label><input id="num-a" type="text">
+    <label>Number B:<input id="radio-b" type="radio" name="math-obj" value="b"></label><input id="num-b" type="text">
+  </div>
+  <div>
+    <button>判断当前选中的输入框输入内容是否为数字</button>
+    <button>把 A 四舍五入为 B 个小数位数的数字</button>
+    <button>当前选中数字的绝对值</button>
+    <button>对当前选中的数字进行上舍入</button>
+    <button>对当前选中的数字进行下舍入</button>
+    <button>把当前选中的数字四舍五入为最接近的整数</button>
+    <button>返回 A 和 B 中的最高值</button>
+    <button>返回 A 和 B 中的最低值</button>
+  </div>
+  <p id="result"></p>
+  <script>
+    var btn = new Array(8)
+    for(i=0;i<8;i++){
+      m = i+1
+      n = "div>button:nth-child("+m+")"
+      btn[i] = document.querySelector(n)
+    }
+    var ipa = document.querySelector("#num-a"),
+        ipb = document.querySelector("#num-b"),
+        ra = document.getElementById("radio-a"),
+        rb = document.getElementById("radio-b"),
+        p = document.getElementById("result")
+        ns = null
+    ra.onfocus = function () {
+      ns = 0
+    }
+    rb.onfocus = function () {
+      ns = 1
+    }
+    function j1() {
+      if (RegExp(/^-?(([1-9][0-9]*)|0)(\.[0-9]+)?$/).test(ipa.value)) return 0
+      else {
+        console.log("选框A内不是一个数字")
+        return 1
+      }
+    }
+    function j2() {
+      if (RegExp(/^-?(([1-9][0-9]*)|0)(\.[0-9]+)?$/).test(ipb.value)) return 0
+      else {
+        console.log("选框B内不是一个数字")
+        return 1
+      }
+    }
+    btn[0].onclick = function () {
+        switch (ns) {
+          case null: console.log("当前没有选中选框")
+            break;
+          case 0: if (j1() == 0) console.log("选框A内是一个数字");
+            break;
+          case 1: if (j2() == 0) console.log("选框B内是一个数字");
+            break;
+          default:
+            break;
+        }
+      }
+    btn[1].onclick = function () {
+      if(j1()==0&&j2()==0){
+        if(parseInt(ipb.value)>100||parseInt(ipb.value)<0) alert("B应当介于0-100")
+        else p.innerText = parseFloat(ipa.value).toFixed(ipb.value)
+      }
+    }
+    btn[2].onclick = function () {
+      switch (ns) {
+        case null: console.log("当前没有选中选框")
+          break;
+        case 0: if (j1() == 0) p.innerText = Math.abs(parseFloat(ipa.value))
+          break;
+        case 1: if (j2() == 0) p.innerText = Math.abs(parseFloat(ipb.value))
+          break;
+        default:
+          break;
+      }
+    }
+    btn[3].onclick = function () {
+      switch (ns) {
+        case null: console.log("当前没有选中选框")
+          break;
+        case 0: if (j1() == 0) p.innerText = Math.ceil(parseFloat(ipa.value))
+          break;
+        case 1: if (j2() == 0) p.innerText = Math.ceil(parseFloat(ipb.value))
+          break;
+        default:
+          break;
+      }
+    }
+    btn[4].onclick = function () {
+      switch (ns) {
+        case null: console.log("当前没有选中选框")
+          break;
+        case 0: if (j1() == 0) p.innerText = Math.floor(parseFloat(ipa.value))
+          break;
+        case 1: if (j2() == 0) p.innerText = Math.floor(parseFloat(ipb.value))
+          break;
+        default:
+          break;
+      }
+    }
+    btn[5].onclick = function () {
+      switch (ns) {
+        case null: console.log("当前没有选中选框")
+          break;
+        case 0: if (j1() == 0) p.innerText = Math.round(parseFloat(ipa.value))
+          break;
+        case 1: if (j2() == 0) p.innerText = Math.round(parseFloat(ipb.value))
+          break;
+        default:
+          break;
+      }
+    }
+    btn[6].onclick = function () {
+      if (j1() == 0 && j2() == 0) {
+        p.innerText = Math.max(parseFloat(ipa.value),parseFloat(ipb.value))
+      }
+    }
+    btn[7].onclick = function () {
+      if (j1() == 0 && j2() == 0) {
+        p.innerText = Math.min(parseFloat(ipa.value),parseFloat(ipb.value))
+      }
+    }
+  </script>
+</body>
+</html>
