@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>String_1</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+  <div>
+    <label>String A:
+      <input id="radio-a" type="radio" checked="true" name="str-obj" value="a">
+    </label>
+    <textarea id="str-a"></textarea>
+    <label>String B:
+      <input id="radio-b" type="radio" name="str-obj" value="b">
+    </label>
+    <textarea id="str-b"></textarea>
+    <label>Num A：<input id="num-a" type="number" value="0"></label>
+    <label>Num B：<input id="num-b" type="number" value="1"></label>
+  </div>
+  <div>
+    <button>获取当前选中输入的内容长度</button>
+    <button>当前选中输入中的第3个字符</button>
+    <button>把两个输入框的文字连接在一起输出（concat）</button>
+    <button>输入B中的内容，在输入A的内容中第一次出现的位置（indexOf）</button>
+    <button>输入A中的内容，在输入B的内容中最后一次出现的位置（lastIndexOf）</button>
+    <button>使用slice获取选中输入框内容的部分内容，参数为num-a及num-b</button>
+    <button>当前选中输入框的行数</button>
+    <button>使用substr获取选中输入框内容的子字符串，参数为num-a及num-b</button>
+    <button>把所选输入框中的内容全部转为大写</button>
+    <button>把所选输入框中的内容全部转为小写</button>
+    <button>把所选输入框中内容的半角空格全部去除</button>
+    <button>把所选输入框中内容的a全部替换成另外一个输入框中的内容</button>
+  </div>
+  <p id="result"></p>
+  <script>
+    var btn = new Array(12)
+    for (i = 0; i < 12; i++) {
+      m = i + 1
+      n = "div>button:nth-child(" + m + ")"
+      btn[i] = document.querySelector(n)
+    }
+    var sa = document.getElementById("str-a"),
+      sb = document.getElementById("str-b"),
+      ra = document.getElementById("radio-a"),
+      rb = document.getElementById("radio-b"),
+      na = document.getElementById("num-a"),
+      nb = document.getElementById("num-b"),
+      p = document.getElementById("result"),
+      ns = 0
+    ra.onfocus = function () {
+      ns = 0
+    }
+    rb.onfocus = function () {
+      ns = 1
+    }
+    btn[0].onclick = function () {
+      switch (ns) {
+        case 0:
+          p.innerText = sa.value.length
+          break
+        case 1:
+          p.innerText = sb.value.length
+        default:
+          break
+      }
+    }
+    btn[1].onclick = function () {
+      switch (ns) {
+        case 0:
+          p.innerText = sa.value[2]
+          break
+        case 1:
+          p.innerText = sb.value[2]
+        default:
+          break
+      }
+    }
+    btn[2].onclick = function () {
+      p.innerText = sa.value + sb.value
+    }
+    btn[3].onclick = function () {
+      p.innerText = sa.value.indexOf(sb.value)
+    }
+    btn[4].onclick = function () {
+      p.innerText = sb.value.lastIndexOf(sa.value)
+    }
+    btn[5].onclick = function () {
+      switch (ns) {
+        case 0:
+          p.innerText = sa.value.slice(na.value, nb.value)
+          break
+        case 1:
+          p.innerText = sb.value.slice(na.value, nb.value)
+          break
+        default:
+          break
+      }
+    }
+    btn[6].onclick = function () {
+      switch (ns) {
+        case 0:
+          p.innerText = sa.value.split(/\r?\n|\r/).length
+          break
+        case 1:
+          p.innerText = sb.value.split(/\r?\n|\r/).length
+          break
+        default:
+          break
+      }
+    }
+    btn[7].onclick = function () {
+      switch (ns) {
+        case 0:
+          p.innerText = sa.value.substr(na.value, nb.value)
+          break
+        case 1:
+          p.innerText = sb.value.substr(na.value, nb.value)
+          break
+        default:
+          break
+      }
+    }
+    btn[8].onclick = function () {
+      switch (ns) {
+        case 0:
+          sa.value = sa.value.toUpperCase()
+          break
+        case 1:
+          sb.value = sb.value.toUpperCase()
+          break
+        default:
+          break
+      }
+    }
+    btn[9].onclick = function () {
+      switch (ns) {
+        case 0:
+          sa.value = sa.value.toLowerCase()
+          break
+        case 1:
+          sb.value = sb.value.toLowerCase()
+          break
+        default:
+          break
+      }
+    }
+    btn[10].onclick = function () {
+      switch (ns) {
+        case 0:
+          sa.value = sa.value.replace(" ", "")
+          break
+        case 1:
+          sb.value = sb.value.replace(" ", "")
+          break
+        default:
+          break
+      }
+    }
+    btn[11].onclick = function () {
+      switch (ns) {
+        case 0:
+          sa.value = sa.value.replace("a", sb.value)
+          break
+        case 1:
+          sb.value = sb.value.replace("a", sa.value)
+          break
+        default:
+          break
+      }
+    }
+  </script>
+</body>
+
+</html>
