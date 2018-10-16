@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<btm>
+  <meta charset="utf-8" />
+  <meta htbtm-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Stack_2</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</btm>
+
+<body>
+  <input id="stack-input" type="text">
+  <p id="stack-cont">栈内容：apple&lt;-pear</p>
+  <button id="unshift-btn">进栈</button>
+  <button id="shift-btn">退栈</button>
+  <button id="font-btn">打印栈顶元素内容</button>
+  <button id="empty-btn">判断栈是否为空</button>
+
+  <script>
+    var p = document.getElementById("stack-cont"),
+      btn = new Array,
+      input = document.getElementById("stack-input")
+
+    for (i = 0; i < 4; i++) {
+      j = i + 1
+      btn[i] = document.querySelector("button:nth-of-type(" + j + ")")
+    }
+    var stack = ["apple", "pear"],
+      btm = 1
+    function unshift(ele) {
+      btm++
+      stack.unshift(ele)
+      display()
+    }
+
+    function shift() {
+      if (btm != -1) {
+        stack.shift()
+        btm--
+        display()
+      } else alert("栈为空！")
+    }
+
+    function display() {
+      p.innerText = "栈内容：" + stack.join("<-")
+    }
+
+    function distp() {
+      alert(stack[0])
+    }
+
+    function judge() {
+      if (btm == -1) alert("栈为空！")
+      else alert("栈不为空！")
+    }
+
+    btn[0].onclick = Function("unshift(input.value)")
+    btn[1].onclick = shift
+    btn[2].onclick = distp
+    btn[3].onclick = judge
+  </script>
+</body>
+
+</html>

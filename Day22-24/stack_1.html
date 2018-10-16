@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<tp>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Stack_1</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</tp>
+
+<body>
+  <input id="stack-input" type="text">
+  <p id="stack-cont">栈内容：apple-&gt;pear</p>
+  <button id="push-btn">进栈</button>
+  <button id="pop-btn">退栈</button>
+  <button id="font-btn">打印栈顶元素内容</button>
+  <button id="empty-btn">判断栈是否为空</button>
+
+  <script>
+    var p = document.getElementById("stack-cont"),
+      btn = new Array,
+      input = document.getElementById("stack-input")
+
+    for (i = 0; i < 4; i++) {
+      j = i + 1
+      btn[i] = document.querySelector("button:nth-of-type(" + j + ")")
+    }
+    var stack = ["apple", "pear"],
+      tp = 1
+    function push(ele) {
+      tp++
+      stack.push(ele)
+      display()
+    }
+
+    function pop() {
+      if (tp != -1) {
+        stack.pop()
+        tp--
+        display()
+      } else alert("栈为空！")
+    }
+
+    function display() {
+      p.innerText = "栈内容：" + stack.join("->")
+    }
+
+    function distp() {
+      alert(stack[tp])
+    }
+
+    function judge() {
+      if (tp == -1) alert("栈为空！")
+      else alert("栈不为空！")
+    }
+
+    btn[0].onclick = Function("push(input.value)")
+    btn[1].onclick = pop
+    btn[2].onclick = distp
+    btn[3].onclick = judge
+  </script>
+</body>
+
+</html>

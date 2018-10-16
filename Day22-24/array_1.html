@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Array_1</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <input id="queue-input" type="text">
+  <p id="queue-cont">队列内容：apple-&gt;pear</p>
+  <button id="in-btn">入队</button>
+  <button id="out-btn">出队</button>
+  <button id="font-btn">打印队头元素内容</button>
+  <button id="empty-btn">判断队列是否为空</button>
+
+<script>
+  var p = document.getElementById("queue-cont"),
+    btn = new Array,
+    input = document.getElementById("queue-input")
+
+  for(i=0;i<4;i++){
+    j=i+1
+    btn[i] = document.querySelector("button:nth-of-type("+j+")")
+  }
+
+  var queue = ["apple", "pear"],
+    head = 1
+
+  function getin(ele) {
+    queue.unshift(ele)
+    head++
+    display()
+  }
+  function getout() {
+    if(head!=-1){
+      queue.pop()
+      head--
+      display()
+    }else alert("队列为空！")
+  }
+  function display() {
+    p.innerText = "队列内容："+queue.join("->")
+  }
+  function dishead() {
+    alert(queue[head])
+  }
+  function judge() {
+    if(head == -1)alert("队列为空！")
+    else alert("队列不为空！")
+  }
+
+  btn[0].onclick = Function("getin(input.value)")
+  btn[1].onclick = getout
+  btn[2].onclick = dishead
+  btn[3].onclick = judge
+</script>
+</body>
+</html>
