@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Date_1</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <p id=show_time></p>
+  <script>
+    var clock = document.getElementById("show_time"),
+    time = new Date(),YYYY,MM,DD,D,HH,mm,ss
+    function upDate() {
+      time = new Date()
+      YYYY = time.getFullYear()
+      MM = time.getMonth()
+      DD = time.getDay()
+      D = getDay()
+      HH = time.getHours()
+      mm = time.getMinutes()
+      ss = time.getSeconds()
+      if(MM<10) MM="0"+MM
+      if(DD<10) DD="0"+DD
+      if(HH<10) HH="0"+HH
+      if(mm<10) mm="0"+mm
+      if(ss<10) ss="0"+ss
+    }
+    function getDay() {
+      var weekday=new Array(7)
+      weekday[0]="星期日"
+      weekday[1]="星期一"
+      weekday[2]="星期二"
+      weekday[3]="星期三"
+      weekday[4]="星期四"
+      weekday[5]="星期五"
+      weekday[6]="星期六"
+      return weekday[time.getDay()]
+    }
+    function showTime() {
+      upDate()
+      clock.innerText = YYYY+"年"+MM+"月"+DD+"日"+D+HH+":"+mm+":"+ss
+    }
+    setInterval("showTime()",1000)
+  </script>
+</body>
+</html>

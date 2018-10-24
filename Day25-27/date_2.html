@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Date_2</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <p id=show_time></p>
+  <script>
+    var clock = document.getElementById("show_time"),
+    time = new Date(),YYYY,MM,DD,D,HH,mm,ss,sx
+    function upDate() {
+      time = new Date()
+      YYYY = time.getFullYear()
+      MM = time.getMonth()
+      DD = time.getDay()
+      D = getDay()
+      HH = time.getHours()
+      mm = time.getMinutes()
+      ss = time.getSeconds()
+      if(MM<10) MM="0"+MM
+      if(DD<10) DD="0"+DD
+      if(HH>12){
+        HH=HH-12
+        sx="PM"
+        if (HH < 10) HH = "0" + HH
+      } else {
+        sx="AM"
+        if (HH < 10) HH = "0" + HH
+        }
+      if(mm<10) mm="0"+mm
+      if(ss<10) ss="0"+ss
+    }
+    function getDay() {
+      var weekday=new Array(7)
+      weekday[0]="Sunday"
+      weekday[1]="Monday"
+      weekday[2]="Tuesday"
+      weekday[3]="Wednesday"
+      weekday[4]="Thursday"
+      weekday[5]="Friday"
+      weekday[6]="Saturday"
+      return weekday[time.getDay()]
+    }
+    function showTime() {
+      upDate()
+      clock.innerText = YYYY+"-"+MM+"-"+DD+" "+D+HH+":"+mm+":"+ss+sx
+    }
+    setInterval("showTime()",1000)
+  </script>
+</body>
+</html>
