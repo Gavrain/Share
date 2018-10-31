@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Mail_tips</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    li:hover{
+      background-color: rgb(216, 215, 215);
+    }
+    li:focus{
+      background-color: rgb(26, 20, 20);
+    }
+    li{
+      height: 22px;
+      width: auto;
+      border: 1px rgb(248, 248, 248) solid;
+    }
+    ul{
+      width: 200px;
+      white-space:nowrap;
+      list-style: none;
+      padding: 0px;
+      margin-top: 0px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <input id="email-input" type="text">
+    <ul id="email-sug-wrapper" class="email-sug"></ul>
+  </div>
+
+  <script>
+    var e_in = document.getElementById("email-input"),
+      e_sug = document.getElementById("email-sug-wrapper"),
+      content,snum,
+      postfixlist = ["163.com", "gmail.com", "126.com", "qq.com", "foxmail.com", "yahoo.com"]
+
+    function whenInput() {
+      generate()
+      showOrHide()
+      if (e_sug.style.visibility == "visible") {
+        snum = 0
+      }
+      sel()
+    }
+
+    function get() {
+      e_in.value = e_in.value.replace(/^\s+|\s+$/g, '')
+      return e_in.value
+    }
+
+    function generate() {
+      content = get()
+      content = HtmlUtil.htmlEncodeByRegExp(content)
+      function removeHtmlTab(tab) {
+        return tab.replace(/<[^<>]+?>/g, '');//删除所有HTML标签
+      }
+      content = removeHtmlTab(content)
+      content = HtmlUtil.htmlDecodeByRegExp(content)
+      var ncontent = "",
+        fix = "",
+        n = content.indexOf("@")
+      if (n != -1) {
+        for (i = 0; i < n; i++) {
+          ncontent += content[i]
+        }
+        for (i = n + 1; i < content.length; i++) {
+          fix += content[i]
+        }
+        content = ncontent
+      }
+      e_sug.innerHTML = ""
+      if (fix == "") {
+        for (i = 0; i < postfixlist.length; i++) {
+          e_sug.innerHTML += "<li>" + content + "@" + postfixlist[i]
+        }
+      } else {
+        for (i = 0; i < postfixlist.length; i++) {
+          if (!postfixlist[i].match(fix)) continue
+          e_sug.innerHTML += "<li>" + content + "@" + postfixlist[i]
+        }
+        if(e_sug.innerHTML==""){
+          for (i = 0; i < postfixlist.length; i++) {
+            e_sug.innerHTML += "<li>" + content + "@" + postfixlist[i]
+          }
+        }
+      }
+    }
+
+    function showOrHide() {
+      if (e_in.value == "") disappear()
+      else show()
+    }
+
+    function show() {
+      e_sug.style.visibility = "visible"
+    }
+
+    function disappear() {
+      e_sug.style.visibility = "hidden"
+    }
+    function click(e) {
+      e_in.value = e.target.innerText
+      e_in.focus()
+      disappear()
+    }
+    var HtmlUtil = {
+          /*3.用正则表达式实现html转码*/
+          htmlEncodeByRegExp: function (str) {
+            var s = ""
+            if (str.length == 0) return ""
+            s = str.replace(/&/g, "&")
+            s = s.replace(/</g, "<")
+            s = s.replace(/>/g, ">")
+            s = s.replace(/ /g, " ")
+            s = s.replace(/\'/g, "'")
+            s = s.replace(/\"/g, "\"")
+              return s
+          },
+          /*4.用正则表达式实现html解码*/
+          htmlDecodeByRegExp: function (str) {
+            var s = ""
+            if (str.length == 0) return ""
+            s = str.replace(/&/g, "&")
+            s = s.replace(/</g, "<")
+            s = s.replace(/>/g, ">")
+            s = s.replace(/ /g, " ")
+            s = s.replace(/'/g, "\'")
+            s = s.replace(/"/g, "\"")
+            return s
+          }
+        }
+    function sel(){
+      e_sug.children[snum].style.background = "powderblue"
+    }
+    function dsel() {
+      e_sug.children[snum].style.background = ""
+    }
+    e_in.autofocus = "autofocus"
+    e_in.onkeydown = function (e) {
+      var n=e_sug.children.length
+      switch (e.keyCode) {
+        case 38:
+          dsel()
+          if(snum==0)snum=n-1
+          else snum--
+          sel()
+          break
+        case 40:
+          dsel()
+          if(snum==(n-1))snum=0
+          else snum++
+          sel()
+          break
+        case 13:
+          dsel()
+          e_in.value= e_sug.children[snum].innerText
+          disappear()
+        case 27:
+          e_in.select()
+        default:
+          break
+      }
+    }
+    e_in.oninput = whenInput
+    e_sug.onclick = click
+  </script>
+</body>
+
+</html>
