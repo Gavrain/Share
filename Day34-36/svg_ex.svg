@@ -1,0 +1,19 @@
+<svg height="1000" width="1000" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <circle cx="252" cy="252" r="70.7" style="fill: rgba(255, 0, 140, 0.6)"/>
+    <text font-size="41.3" style="fill: rgba(255, 0, 140, 0.6)" textLength="319" x="300" y="331">
+        See U Tomorrow
+    </text>
+    <line stroke="rgba(255, 0, 140, 0.596)" stroke-width="2" x1="1" x2="100" y1="1" y2="100"/>
+    <ellipse cx="156.5" cy="434.5" rx="46.2" ry="46.2" style="fill: red"/>
+    <rect height="100" style="fill: rgba(255, 0, 140, 0.6)" width="100" x="100" y="100"/>
+    <ellipse cx="246.5" cy="421.5" rx="46.2" ry="46.2" style="fill: red"/>
+    <ellipse cx="294.5" cy="504.5" rx="46.2" ry="46.2" style="fill: red"/>
+    <ellipse cx="150.5" cy="526.5" rx="46.2" ry="46.2" style="fill: red"/>
+    <polyline points="214,777 214,519" style="fill: rgba(0, 0, 0, 0); stroke: brown; stroke-width: 5"/>
+    <ellipse cx="231.5" cy="562.5" rx="46.2" ry="46.2" style="fill: red"/>
+    <circle cx="212" cy="485" r="70.7" style="fill: yellow"/>
+    <polygon points="-97.2,-72.4 2.8,27.6 -97.2,27.6" style="fill: green; stroke: green; stroke-width: 1" transform="matrix(-0.7,0.7,-0.7,-0.7,435.4,472.9)"/>
+    <polygon points="-61.4,-138.8 74.6,-7.2 -61.4,-7.2" style="fill: green; stroke: green; stroke-width: 1" transform="matrix(-0.7,0.7,-0.7,-0.7,435.4,472.9)"/>
+    <rect height="134" style="fill: brown" width="38" x="465" y="578"/>
+    <polygon points="-17.8,-200.1 133.4,-52 -17.8,-52" style="fill: green; stroke: green; stroke-width: 1" transform="matrix(-0.7,0.7,-0.7,-0.7,435.4,472.9)"/>
+</svg>
