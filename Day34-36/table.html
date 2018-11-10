@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Table</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body>* {
+      box-sizing: border-box;
+    }
+
+    span {
+      display: inline-block;
+      width: 65px;
+    }
+    th,td{
+      border-top: 1px black solid;
+      border-left: 1px black solid;
+    }
+    table{
+      border-bottom: 1px black solid;
+      border-right: 1px black solid;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="region-radio-wrapper">
+    <span>地区:</span>
+  </div>
+  <br>
+  <div id="product-radio-wrapper">
+    <span>商品:</span>
+  </div>
+  <div id="table-wrapper">
+  </div>
+
+  <script src="js/ife31data.js"></script>
+  <script>
+    var regionRadioWrapper = document.getElementById("region-radio-wrapper"),
+      productRadioWrapper = document.getElementById("product-radio-wrapper")
+
+    function gcheckbox(CheckBoxWrapper, grame) {
+      /* 生成全选checkbox的html，给一个自定义属性表示为全选checkbox
+      遍历参数对象 {
+        生成各个子选项checkbox的html，给一个自定义属性表示为子选项
+        } */
+      var all = document.createElement("input"),
+        ck = [],
+        i = 0
+
+      all.type = "checkbox"
+      all.value = "all"
+      all.setAttribute("checkboxtype", "all")
+      for (; i < grame.length; i++) {
+        ck[i] = document.createElement("input")
+        ck[i].type = "checkbox"
+        ck[i].value = grame[i].value
+        ck[i].setAttribute("checkboxtype", "checkbox")
+        CheckBoxWrapper.appendChild(ck[i])
+        var span = document.createElement("span")
+        span.innerText = grame[i].text
+        CheckBoxWrapper.appendChild(span)
+      }
+      CheckBoxWrapper.appendChild(all)
+      var span = document.createElement("span")
+      span.innerText = "全选"
+      CheckBoxWrapper.appendChild(span)
+
+
+      CheckBoxWrapper.onclick = function (e) {
+        if (e.target.getAttribute("checkboxtype") == "all") { /* 全选 */
+          var trueOrFalse
+          e.target.checked ? trueOrFalse = true : trueOrFalse = false
+          for (i = 0; i < ck.length; i++) {
+            ck[i].checked = trueOrFalse
+          }
+          /* 做全选对应的逻辑 */
+        } else if (e.target.getAttribute("checkboxtype") == "checkbox") {
+          if (e.target.checked) {
+            var trueOrFalse = true
+            for (i = 0; i < ck.length; i++) {
+              if (ck[i].checked == true) {
+
+              } else trueOrFalse = false
+
+            }
+            if (trueOrFalse) all.checked = true
+          } else all.checked = false
+
+          /* 做子选项对应的逻辑 */
+
+        }
+        generate()
+      }
+
+
+    }
+
+    // 对象或数组实现
+    gcheckbox(regionRadioWrapper, [{
+      value: "华东",
+      text: "华东"
+    }, {
+      value: "华南",
+      text: "华南"
+    }, {
+      value: "华北",
+      text: "华北"
+    }]);
+
+    gcheckbox(productRadioWrapper, [{
+      value: "手机",
+      text: "手机"
+    }, {
+      value: "笔记本",
+      text: "笔记本"
+    }, {
+      value: "智能音箱",
+      text: "智能音箱"
+    }]);
+
+    // 生成一组CheckBox
+  </script>
+  <script src="js/table.js"></script>
+
+</body>
+
+</html>
