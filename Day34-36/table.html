@@ -9,19 +9,40 @@
   <style>
     body>* {
       box-sizing: border-box;
+      padding: 0;
+      border: 0;
+      overflow: visible;
     }
 
     span {
       display: inline-block;
       width: 65px;
     }
-    th,td{
+
+    th,
+    td {
       border-top: 1px black solid;
       border-left: 1px black solid;
     }
-    table{
+
+    table {
       border-bottom: 1px black solid;
       border-right: 1px black solid;
+    }
+
+    #container {
+      display: flex;
+      width: 700px;
+      height: 400px;
+      margin-left: 0;
+    }
+
+#histogram {
+transform: matrix(0.5, 0, 0, 0.5, -100, -100);
+}
+
+    #line {
+      transform: matrix(1, 0, 0, 1, -300,-50);
     }
   </style>
 </head>
@@ -34,9 +55,13 @@
   <div id="product-radio-wrapper">
     <span>商品:</span>
   </div>
-  <div id="table-wrapper">
-  </div>
 
+  <div id="container">
+    <div id=histogram></div>
+    <canvas id=line></canvas>
+  </div>
+<div id="table-wrapper">
+</div>
   <script src="js/ife31data.js"></script>
   <script>
     var regionRadioWrapper = document.getElementById("region-radio-wrapper"),
@@ -94,6 +119,20 @@
 
         }
         generate()
+        var r=[],p=[],n=0
+for (i = 0; i < regionRadioWrapper.children.length; i++) {
+    if (regionRadioWrapper.children[i].getAttribute("checkboxtype") == "checkbox")
+      if (regionRadioWrapper.children[i].checked == true) r[n++] = regionRadioWrapper.children[i].value
+  }
+  n=0
+  for (i = 0; i < productRadioWrapper.children.length; i++) {
+    if (productRadioWrapper.children[i].getAttribute("checkboxtype") == "checkbox")
+      if (productRadioWrapper.children[i].checked == true) p[n++] = productRadioWrapper.children[i].value
+  }
+  if(r!=[]&&p!=[]){
+
+  drawLine(p,r,sourceData)
+  }
       }
 
 
@@ -125,7 +164,8 @@
     // 生成一组CheckBox
   </script>
   <script src="js/table.js"></script>
-
+  <script src="js/bar.js"></script>
+  <script src="js/line.js"></script>
 </body>
 
 </html>

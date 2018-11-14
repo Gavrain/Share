@@ -8,6 +8,8 @@ function get() { /* 根据select选项获取数据 */
     n = 0,
     r = [],
     p = []
+    regionAmount = 0
+      productAmount = 0
   for (i = 0; i < regionRadioWrapper.children.length; i++) {
     if (regionRadioWrapper.children[i].getAttribute("checkboxtype") == "checkbox")
       if (regionRadioWrapper.children[i].checked == true) r[n++] = regionRadioWrapper.children[i].value
@@ -158,8 +160,45 @@ function generate() {
               </tr>"
     }
   }
-  regionAmount = 0
-  productAmount = 0
   tableWrapper.innerHTML = html
+  tableWrapper.onmouseout=function(){
+            var r = [],
+              p = [],
+              n = 0
+            for (i = 0; i < regionRadioWrapper.children.length; i++) {
+              if (regionRadioWrapper.children[i].getAttribute("checkboxtype") == "checkbox")
+                if (regionRadioWrapper.children[i].checked == true) r[n++] = regionRadioWrapper.children[i].value
+            }
+            n = 0
+            for (i = 0; i < productRadioWrapper.children.length; i++) {
+              if (productRadioWrapper.children[i].getAttribute("checkboxtype") == "checkbox")
+                if (productRadioWrapper.children[i].checked == true) p[n++] = productRadioWrapper.children[i].value
+            }
+            if (r != [] && p != []) {
+
+              drawLine(p, r, sourceData)
+  }}
+  var tr = document.querySelectorAll("tr")
+      for (i = 1; i < tr.length; i++) {
+    tr[i].onmouseover = function (e) {
+      var region = "",
+        product = ""
+      if ((regionAmount == 1 && productAmount > 1) || (productAmount == 1 && regionAmount > 1)) {
+        if (productAmount > 1) {
+          region = document.querySelector("[rowspan]").innerText
+          product = e.target.parentNode.children[e.target.parentNode.children.length - 13].innerText
+        } else {
+          product = document.querySelector("[rowspan]").innerText
+          region = e.target.parentNode.children[e.target.parentNode.children.length-13].innerText
+        }
+      } else {
+        product = e.target.parentNode.children[0].innerText
+        region = e.target.parentNode.children[1].innerText
+      }
+      drawHistogram(product, region, sourceData)
+      drawLine([product], [region], sourceData)
+    }
+  }
+
 }
 generate()
