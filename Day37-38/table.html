@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Table</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body>* {
+      box-sizing: border-box;
+      padding: 0;
+      border: 0;
+      overflow: visible;
+    }
+
+    [type=text] {
+      margin: 0;
+      padding: 0;
+      height: 14px;
+      width: 30px;
+    }
+
+    span {
+      display: inline-block;
+      width: 65px;
+    }
+
+    th,
+    td {
+      border-top: 1px black solid;
+      border-left: 1px black solid;
+      overflow: visible;
+    }
+
+    table {
+      border-bottom: 1px black solid;
+      border-right: 1px black solid;
+    }
+
+    #container {
+      display: flex;
+      width: 700px;
+      height: 400px;
+      margin-left: 0;
+    }
+
+    #histogram {
+      transform: matrix(0.5, 0, 0, 0.5, -100, -100);
+    }
+
+    #line {
+      transform: matrix(1, 0, 0, 1, -300, -50);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="region-radio-wrapper">
+    <span>地区:</span>
+  </div>
+  <br>
+  <div id="product-radio-wrapper">
+    <span>商品:</span>
+  </div>
+
+  <div id="container">
+    <div id=histogram></div>
+    <canvas id=line></canvas>
+  </div>
+  <div id="table-wrapper">
+  </div>
+  <input type="submit" value="保存" id="submit">
+  <script src="js/ife31data.js"></script>
+  <script>
+    var regionRadioWrapper = document.getElementById("region-radio-wrapper"),
+      productRadioWrapper = document.getElementById("product-radio-wrapper"),
+      data = {}
+    function dataR() {
+if (localStorage.data) {
+data = JSON.parse(localStorage.data)
+} else {
+data = sourceData
+}
+    }
+dataR()
+    function gcheckbox(CheckBoxWrapper, grame) {
+      /* 生成全选checkbox的html，给一个自定义属性表示为全选checkbox
+      遍历参数对象 {
+        生成各个子选项checkbox的html，给一个自定义属性表示为子选项
+        } */
+      var all = document.createElement("input"),
+        ck = [],
+        i = 0
+
+      all.type = "checkbox"
+      all.value = "all"
+      all.setAttribute("checkboxtype", "all")
+      for (; i < grame.length; i++) {
+        ck[i] = document.createElement("input")
+        ck[i].type = "checkbox"
+        ck[i].value = grame[i].value
+        ck[i].setAttribute("checkboxtype", "checkbox")
+        CheckBoxWrapper.appendChild(ck[i])
+        var span = document.createElement("span")
+        span.innerText = grame[i].text
+        CheckBoxWrapper.appendChild(span)
+      }
+      CheckBoxWrapper.appendChild(all)
+      var span = document.createElement("span")
+      span.innerText = "全选"
+      CheckBoxWrapper.appendChild(span)
+
+
+      CheckBoxWrapper.onclick = function (e) {
+        if (e.target.getAttribute("checkboxtype") == "all") { /* 全选 */
+          var trueOrFalse
+          e.target.checked ? trueOrFalse = true : trueOrFalse = false
+          for (i = 0; i < ck.length; i++) {
+            ck[i].checked = trueOrFalse
+          }
+          /* 做全选对应的逻辑 */
+        } else if (e.target.getAttribute("checkboxtype") == "checkbox") {
+          if (e.target.checked) {
+            var trueOrFalse = true
+            for (i = 0; i < ck.length; i++) {
+              if (ck[i].checked == true) {
+
+              } else trueOrFalse = false
+
+            }
+            if (trueOrFalse) all.checked = true
+          } else all.checked = false
+
+          /* 做子选项对应的逻辑 */
+
+        }
+        generate()
+        var r = [],
+          p = [],
+          n = 0
+        for (i = 0; i < regionRadioWrapper.children.length; i++) {
+          if (regionRadioWrapper.children[i].getAttribute("checkboxtype") == "checkbox")
+            if (regionRadioWrapper.children[i].checked == true) r[n++] = regionRadioWrapper.children[i].value
+        }
+        n = 0
+        for (i = 0; i < productRadioWrapper.children.length; i++) {
+          if (productRadioWrapper.children[i].getAttribute("checkboxtype") == "checkbox")
+            if (productRadioWrapper.children[i].checked == true) p[n++] = productRadioWrapper.children[i].value
+        }
+        if (r != [] && p != []) {
+
+          drawLine(p, r, data)
+        }
+      }
+
+    }
+
+    // 对象或数组实现
+    gcheckbox(regionRadioWrapper, [{
+      value: "华东",
+      text: "华东"
+    }, {
+      value: "华南",
+      text: "华南"
+    }, {
+      value: "华北",
+      text: "华北"
+    }]);
+
+    gcheckbox(productRadioWrapper, [{
+      value: "手机",
+      text: "手机"
+    }, {
+      value: "笔记本",
+      text: "笔记本"
+    }, {
+      value: "智能音箱",
+      text: "智能音箱"
+    }]);
+
+    // 生成一组CheckBox
+  </script>
+  <script src="js/table.js"></script>
+  <script src="js/bar.js"></script>
+  <script src="js/line.js"></script>
+  <script>
+    var sub = document.querySelector("#submit")
+function fix(r, p,n,num) {
+        for (var k = 0; k < data.length; k++) {
+          if (data[k].region == r)
+            if (data[k].product == p){
+data[k].sale[n]=num
+            }
+        }
+      }
+    sub.onclick = function () {
+      if (localStorage.data) {
+      data =JSON.parse( localStorage.data)
+    } else {
+      data = sourceData
+    }
+    data = sourceData
+      var tr = document.querySelectorAll("tr"),
+        region = "",
+        product = ""
+
+      function fix(r, p,n,num) {
+        for (var k = 0; k < data.length; k++) {
+          if (data[k].region == r)
+            if (data[k].product == p){
+data[k].sale[n]=num
+
+            }
+        }
+      }
+
+      if (regionAmount==1||productAmount == 1) {
+        if (regionAmount > 1) {
+          product = tr[1].children[0].innerText
+          region = tr[1].children[1].innerText
+          for (var j = 2; j < tr[1].length; j++) {
+            fix(region, product,j - 2,tr[1].children[j].innerText)
+          }
+          for (var i = 2; i < tr.length; i++) {
+            region = tr[i]
+            for (var j = 1; j < tr[1].length; j++) {
+              fix(region, product,j - 1,tr[1].children[j].innerText)
+            }
+          }
+        } else {
+          region = tr[1].children[0].innerText
+          product = tr[1].children[1].innerText
+          for (var j = 2; j < tr[1].length; j++) {
+            fix(region, product,j - 2,tr[1].children[j].innerText)
+          }
+          for (var i = 2; i < tr.length; i++) {
+            product = tr[i]
+            for (var j = 1; j < tr[1].length; j++) {
+              fix(region, product,j - 1,tr[1].children[j].innerText)
+            }
+          }
+        }
+      } else {
+        for (var i = 1; i < tr.length; i++) {
+          region = tr[i].children[1].innerText
+          product = tr[i].children[0].innerText
+          for (var j = 2; j < tr[i].children.length; j++) {
+            fix(region, product,j - 2,tr[i].children[j].innerText)
+          }
+        }
+      }
+      localStorage.data=JSON.stringify(data)
+    }
+    var a = document.querySelectorAll("[value=all]")
+    document.addEventListener("DOMContentLoaded", [].forEach.call(a, function (a) {
+      a.click()
+    }))
+generate()
+drawLine(["手机"], ["华东"], data)
+drawHistogram("手机","华东",data)
+  </script>
+</body>
+
+</html>
