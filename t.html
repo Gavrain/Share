@@ -2,21 +2,157 @@
 
 <head>
   <style>
-    li{
-background-color: rgba(0,0,0,0);
+    [type=text] {
+      margin: 0;
+      padding: 0;
+      width: 40px;
     }
+    th,td {
+      border-top: 1px black solid;
+      border-left: 1px black solid;
+      overflow: visible;
+    }
+
+    table {
+      border-bottom: 1px black solid;
+      border-right: 1px black solid;
+    }
+
   </style>
 </head>
-<canvas id=canvas></canvas>
 
 <body>
-
+  <div>
+    <span>爆率范围：</span>
+    <input type="text" id="criticalChanceHead" placeholder="0">
+    <span>-></span>
+    <input type="text" id="criticalChanceTail" placeholder="3">
+  </div>
+  <div>
+    <span>爆伤范围：</span>
+    <input type="text" id="criticalDamageHead" placeholder="2">
+    <span>-></span>
+    <input type="text" id="criticalDamageTail" placeholder="4">
+  </div>
+  <div>
+    <span>原爆率mod数值：</span>
+    <input type="text" id="criticalChanceMod" placeholder="150">
+    <span>%</span>
+  </div>
+  <div>
+    <span>原爆伤mod数值：</span>
+    <input type="text" id="criticalDamageMod" placeholder="120">
+    <span>%</span>
+  </div>
+  <div>
+    <span>新爆率mod数值：</span>
+    <input type="text" id="newCriticalChanceMod" placeholder="150">
+    <span>%</span>
+  </div>
+  <div>
+    <span>新爆伤mod数值：</span>
+    <input type="text" id="newCriticalDamageMod" placeholder="120">
+    <span>%</span>
+    <input type="button" id="confirm" value="确定">
+  </div>
+  <table id=damageWrapper></table>
   <script type="text/javascript">
-    var i = 1
-    function log() {
-      console.log(i);/* i=1 */
+    function getDamage(criticalChance, criticalDamage) {
+      var damage,
+        lowerCriticalChance, lowerCriticalDamage,
+        hyperCriticalChance, hyperCriticalDamage
+      lowerCriticalChance = 1 - criticalChance + Math.floor(criticalChance)
+      hyperCriticalChance = criticalChance - Math.floor(criticalChance)
+      lowerCriticalDamage = Math.floor(criticalChance) * (criticalDamage - 1) + 1
+      hyperCriticalDamage = Math.ceil(criticalChance) * (criticalDamage - 1) + 1
+      damage = lowerCriticalChance * lowerCriticalDamage + hyperCriticalChance * hyperCriticalDamage
+      damage = damage.toFixed(2)
+      return damage
     }
-    log()
+
+    function gCriticalChanceList() {
+      var head = document.getElementById("criticalChanceHead").value / 1,
+        tail = document.getElementById("criticalChanceTail").value / 1,
+        interval = 0.05,
+        criticalChanceList = []
+      for (let i = 0; i <= (tail - head) / interval; i++) {
+        criticalChanceList[i] = head + i * interval
+        criticalChanceList[i] = criticalChanceList[i].toFixed(2)
+      }
+      return criticalChanceList
+    }
+
+    function gCriticalDamageList() {
+      var head = document.getElementById("criticalDamageHead").value / 1,
+        tail = document.getElementById("criticalDamageTail").value / 1,
+        interval = 0.1,
+        criticalDamageList = []
+      for (let i = 0; i <= (tail - head) / interval; i++) {
+        criticalDamageList[i] = head + i * interval
+        criticalDamageList[i] = criticalDamageList[i].toFixed(1)
+      }
+      return criticalDamageList
+    }
+
+    var damageWrapper = document.getElementById("damageWrapper")
+
+    function clearLine() {
+      damageWrapper.innerHTML = ""
+    }
+
+    function gFirstLine(list) {
+      var line = document.createElement("tr"),
+        head = document.createElement("th")
+      head.innerText = "爆率\\爆伤"
+      line.appendChild(head)
+      for (let i = 0; i < list.length; i++) {
+        let td = document.createElement("th")
+        td.innerText = list[i]
+        line.appendChild(td)
+      }
+      damageWrapper.appendChild(line)
+    }
+
+    function gLine(criticalChance, list) {
+      var line = document.createElement("tr"),
+        head = document.createElement("td"),
+        criticalChanceMod = document.getElementById("criticalChanceMod").value / 100,
+        criticalDamageMod = document.getElementById("criticalDamageMod").value / 100,
+        newCriticalChanceMod = document.getElementById("newCriticalChanceMod").value / 100,
+        newCriticalDamageMod = document.getElementById("newCriticalDamageMod").value / 100,
+        modList = [],
+        newModList = []
+      list.forEach((value, index, arr) => {
+        modList[index] = value * (1 + criticalDamageMod)
+      })
+      list.forEach((value, index, arr) => {
+        newModList[index] = value * (1 + criticalDamageMod+newCriticalDamageMod)
+      })
+      head.innerText = criticalChance
+      line.appendChild(head)
+      for (let i = 0; i < list.length; i++) {
+        let td = document.createElement("td")
+        td.innerText = ( getDamage(criticalChance*(1+newCriticalChanceMod+criticalChanceMod),newModList[i])/getDamage(criticalChance * (1 + criticalChanceMod), modList[i])  - 1).toFixed(2)
+        line.appendChild(td)
+      }
+      damageWrapper.appendChild(line)
+    }
+
+    function gTable() {
+      var ccList = [],
+        cdList = []
+      ccList = gCriticalChanceList()
+      cdList = gCriticalDamageList()
+      clearLine()
+      gFirstLine(cdList)
+      for (let i = 0; i < ccList.length; i++) {
+        gLine(ccList[i], cdList)
+      }
+    }
+    var btn = document.getElementById("confirm")
+    btn.onclick = function () {
+      gTable()
+    }
   </script>
 </body>
 
