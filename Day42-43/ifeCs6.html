@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>ifeRestaurant</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+
+  <script>
+    class Restaurant {
+      constructor({
+        cash = 0,
+        seats = 1,
+        staff = []
+      }) {
+        this.cash = cash
+        this.seats = seats
+        this.staff = staff
+      }
+
+      hire(staffMember) {
+        this.staff.push(staffMember)
+      }
+
+      fire(member) {
+        var staff = this.staff
+        for (var x in staff) {
+          if (staff[x] == member) {
+            staff.splice(x, 1)
+            console.log("有这个人,开除了")
+            return
+          }
+        }
+        console.log("没这个人")
+      }
+    }
+
+
+
+    class Staff {
+      constructor(name, pay) {
+        this.name = name
+        this.pay = pay
+      }
+
+      work() {
+        console.log("不知道干嘛")
+      }
+    }
+
+    class Waiter extends Staff {
+      constructor(name, pay) {
+        super(name, pay)
+      }
+      work(params) {
+        switch (ture) {
+          case params instanceof Array:
+            for (var x in params) {
+              list.push(x)
+            }
+            //点菜
+            break
+
+          default:
+            for (var x in flist) {
+              if (flist[x].name == params) {
+                flist.splice(x, 1)
+                console.log(`${name}上了`);
+                break
+              }
+            }
+            console.log("没这个菜")
+            //上菜
+            break
+        }
+      }
+    }
+
+    class Cook extends Staff {
+      constructor(name, pay) {
+        super(name, pay)
+      }
+      work() {
+        for (x in list) {
+          flist.push(x)
+          let index = list.indexOf(x)
+          list.splice(index, 1)
+        }
+        //做菜
+      }
+
+    }
+
+    class Customer {
+      constructor() {
+
+      }
+
+      order() {
+        //点菜
+      }
+
+      eat() {
+        //吃
+      }
+
+    }
+
+    class Food {
+      constructor(name, cost, price) {
+        this.name = name
+        this.cost = cost
+        this.price = price
+      }
+    }
+  </script>
+</body>
+
+</html>
