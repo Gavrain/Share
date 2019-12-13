@@ -16,6 +16,7 @@ for (var i = 0; i < btn.length; i++) {
 }
 
 
+
 function changeHash() {
   switch (this.innerText) {
     case "A":case "B":case "C":
